@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html;charset=utf-8' />
+<script type='text/javascript' src='http://code.jquery.com/jquery-3.7.1.js'></script>
+<script type="text/javascript">
+    let timer = [];
+    let count = 0;
+
+    $(function() {
+        function conn() {
+            const timeElm = document.getElementById('time');
+            timeElm.innerHTML = '';
+            const imgArea = document.getElementById('imgArea');
+            imgArea.innerHTML = '';
+
+            const text = document.getElementById('search');
+            const cnvTxt = encodeURIComponent(text.value);
+            if (cnvTxt === '') return;
+
+            console.log(cnvTxt);
+            $.ajax({
+                type:'GET',
+                dataType:'json',
+                url:'http://localhost/getImg/sample?searchTxt=' + cnvTxt,
+                success:function(data) {
+                    console.log(data);
+
+                    timeElm.innerHTML = data.time;
+
+                    for (const img of data.image){
+                        const elm = document.createElement('img');
+                        elm.src = img.imgid;;
+                        elm.alt= img.sim;
+                        elm.style.width = '50%';
+                        elm.style.height = 'auto';
+                        imgArea.appendChild(elm);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error({status, error}); 
+                }
+            });
+        }
+        // 単発接続
+        document.getElementById('connect').addEventListener('click', conn);
+    });
+</script>
+</head>
+<body>
+    
+    <div>
+        <input type='text' id='search' />
+        <input type='button' id='connect' value='検索' />
+    </div>
+    <div>
+        <div>検索時間：<span id='time'></span></div>
+        <div id='imgArea'></div>
+    </div>
+</body>
+</html>
