@@ -4,6 +4,7 @@ Class dev.Vector Extends %RegisteredObject
 XData %import [ MimeType = application/python ]
 {
 import iris
+import gc
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 from pyarrow.parquet import ParquetFile
@@ -22,7 +23,7 @@ ClassMethod makeData(count As %Integer = 100000) [ Language = python ]
         txt = row['text']
         iris.cls('dev.Vector').saveData(txt)
 
-        print(datetime.datetime.now())
+        gc.collect()
 }
 
 ClassMethod saveData(text As %String)
@@ -89,3 +90,4 @@ ClassMethod ConvertImg(txt As %String) As %String [ Language = python ]
 }
 
 }
+
