@@ -5,7 +5,7 @@ Parameter USEEXTENTSET = 1;
 
 Index DDLBEIndex [ Extent, SqlName = "%%DDLBEIndex", Type = bitmap ];
 
-Index HNSWIndex On (imgvec) As %SQL.Index.HNSW(Distance = "Cosine") [ SqlName = HNSWIndex, Type = bitmap ];
+Index HNSWIndex On (imgvec) As %SQL.Index.HNSW(Distance = "Cosine") [ SqlName = HNSWIndex, Type = index ];
 
 Property url As %String(MAXLEN = 256) [ SqlColumnNumber = 2 ];
 
@@ -48,3 +48,4 @@ Storage Default
 }
 
 }
+
